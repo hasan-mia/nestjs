@@ -1,10 +1,9 @@
-// user.entity.ts
+import { Roles } from 'src/auth/entity/roles.entity';
+import { Tokens } from 'src/auth/entity/tokens.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Token } from 'src/auth/entity/token.entity';
-import { Role } from 'src/auth/entity/role.entity';
 
 @Entity()
-export class User {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,11 +23,11 @@ export class User {
   password: string;
 
   @Column({ nullable: true })
-  resetToken: string;
+  refreshToken: string;
 
-  @OneToMany(() => Token, (token) => token.user)
-  tokens: Token[];
+  @OneToMany(() => Tokens, (token) => token.users)
+  tokens: Tokens[];
 
-  @OneToMany(() => Role, (role) => role.user)
-  roles: Role[];
+  @OneToMany(() => Roles, (role) => role.users)
+  roles: Roles[];
 }

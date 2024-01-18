@@ -1,4 +1,4 @@
-import { User } from 'src/user/entity/user.entity';
+import { Users } from 'src/users/entity/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,18 +9,15 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Token {
+export class Roles {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  accessToken: string;
+  name: string;
 
-  @Column()
-  refreshToken: string;
-
-  @ManyToOne(() => User, (user) => user.tokens)
-  user: User;
+  @ManyToOne(() => Users, (user) => user.roles)
+  users: Users;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
