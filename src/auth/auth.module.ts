@@ -8,17 +8,26 @@ import { JwtStrategy } from './jwt.strategy';
 import { RefreshTokenStrategy } from './refresh-token.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from 'src/users/entity/users.entity';
+import { User } from 'src/users/entity/users.entity';
+import { Role } from '../roles/entity/role.entity';
+import { UserRole } from './entity/userrole.entity';
+import { JwtVarifyService } from 'src/utils/jwt-varify.service';
 
 @Module({
   imports: [
     UsersModule,
     JwtModule,
     PassportModule,
-    TypeOrmModule.forFeature([Users]),
+    TypeOrmModule.forFeature([User, Role, UserRole]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, JwtStrategy, RefreshTokenStrategy],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    RefreshTokenStrategy,
+    JwtVarifyService,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

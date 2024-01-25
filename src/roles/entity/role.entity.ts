@@ -1,23 +1,21 @@
-import { Users } from 'src/users/entity/users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  Column,
 } from 'typeorm';
 
-@Entity()
-export class Roles {
+@Entity({ name: 'roles' })
+export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  role_name: string;
 
-  @ManyToOne(() => Users, (user) => user.roles)
-  users: Users;
+  @Column('text', { nullable: true })
+  description: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

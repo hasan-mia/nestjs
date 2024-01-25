@@ -1,17 +1,19 @@
-import { Roles } from 'src/auth/entity/roles.entity';
-import { Tokens } from 'src/auth/entity/tokens.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Role } from 'src/roles/entity/role.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
-@Entity()
-export class Users {
+@Entity({ name: 'users' })
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
+  @Column()
   name: string;
-
-  @Column({ nullable: true })
-  profileImage: string;
 
   @Column({ unique: true, nullable: true })
   username: string;
@@ -22,12 +24,19 @@ export class Users {
   @Column()
   password: string;
 
+  @Column({ default: 1 })
+  type: number;
+
   @Column({ nullable: true })
-  refreshToken: string;
+  reset_token: string;
 
-  @OneToMany(() => Tokens, (token) => token.users)
-  tokens: Tokens[];
+  @ManyToOne(() => Role, { nullable: true })
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
-  @OneToMany(() => Roles, (role) => role.users)
-  roles: Roles[];
+  @Column({ default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
+  created_at: Date;
+
+  @Column({ nullable: true, name: 'updated_at' })
+  updated_at: Date;
 }

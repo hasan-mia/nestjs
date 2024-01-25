@@ -4,11 +4,14 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { SignInDto } from './dto/signin.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +27,22 @@ export class AuthController {
   // Signin controller
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  signIn(@Body() SignInDto, @Res({ passthrough: true }) res) {
-    return this.authService.signIn(SignInDto, res);
+  signIn(@Body() dto: SignInDto, @Res({ passthrough: true }) res) {
+    return this.authService.signIn(dto, res);
+  }
+
+  // Signout controller
+  @HttpCode(HttpStatus.OK)
+  @Post('signout')
+  signout(@Res({ passthrough: true }) res) {
+    return this.authService.signout(res);
+  }
+
+  // reset token controller
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  @Post('reset-token')
+  resetToken(@Req() req, @Res() res) {
+    return this.authService.resetToken(req, res);
   }
 }

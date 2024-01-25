@@ -1,8 +1,8 @@
 // common
-export const jwtAccess = process.env.JWT_ACCESS_TOKEN;
-export const jwtRefresh = process.env.JWT_REFRESH_TOKEN;
-export const clientUrl = process.env.CLIENT_URL;
-export const serverUrl = process.env.SERVER_URL;
+export const jwtAccess: string = process.env.JWT_ACCESS_TOKEN;
+export const jwtRefresh: string = process.env.JWT_REFRESH_TOKEN;
+export const clientUrl: string = process.env.CLIENT_URL;
+export const serverUrl: string = process.env.SERVER_URL;
 // database
 export const dbType = process.env.DB_TYPE;
 export const dbHost = process.env.DB_HOST;
