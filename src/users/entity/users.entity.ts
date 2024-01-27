@@ -3,8 +3,8 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'users' })
@@ -20,7 +20,6 @@ export class User {
 
   @Column({ unique: true })
   email: string;
-
   @Column()
   password: string;
 
@@ -30,9 +29,9 @@ export class User {
   @Column({ nullable: true })
   reset_token: string;
 
-  @ManyToOne(() => Role, { nullable: true })
-  @JoinColumn({ name: 'role_id' })
-  role: Role;
+  @ManyToMany(() => Role, (role) => role.users)
+  @JoinTable({ name: 'user_roles' })
+  roles: Role[];
 
   @Column({ default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
   created_at: Date;

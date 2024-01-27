@@ -10,7 +10,6 @@ import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/users.entity';
 import { Role } from '../roles/entity/role.entity';
-import { UserRole } from './entity/userrole.entity';
 import { JwtVarifyService } from 'src/utils/jwt-varify.service';
 
 @Module({
@@ -18,7 +17,7 @@ import { JwtVarifyService } from 'src/utils/jwt-varify.service';
     UsersModule,
     JwtModule,
     PassportModule,
-    TypeOrmModule.forFeature([User, Role, UserRole]),
+    TypeOrmModule.forFeature([User, Role]),
   ],
   controllers: [AuthController],
   providers: [

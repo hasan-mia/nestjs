@@ -15,10 +15,24 @@ import { Role } from './entity/role.entity';
 import { RolesService } from './roles.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/role.guard';
 
 @Controller('roles')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class RolesController {
   constructor(private roleService: RolesService) {}
+
+  @Get('admin-only')
+  // @Roles('admin')
+  adminOnlyRoute() {
+    return 'This route is only accessible to users with the "admin" role';
+  }
+
+  @Get('user-and-admin')
+  @Roles('user', 'admin')
+  userAndAdminRoute() {
+    return 'This route is accessible to users with the "user" or "admin" role';
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('create')
@@ -28,8 +42,9 @@ export class RolesController {
     return this.roleService.create(dto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get('all')
-  @Roles('admin')
+  // @Roles('admin')
   @UseGuards(JwtAuthGuard)
   findAll() {
     return this.roleService.findAll();
